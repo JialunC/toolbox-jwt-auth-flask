@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  db:
+    build:
+      context: ./services/db
+      dockerfile: Dockerfile
+    volumes:
+      - psql_volume:/var/lib/postgresql/data/
+    env_file:
+      - ./services/db/dev.env
+    stop_grace_period: 10s
+
+volumes:
+  psql_volume:
