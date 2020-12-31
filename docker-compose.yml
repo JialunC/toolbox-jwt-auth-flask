@@ -1,6 +1,20 @@
 version: '3.7'
 
 services:
+  app:
+    build:
+      context: ./services/app
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    command: python ./main.py
+    volumes:
+      - ./services/app/migrations:/usr/src/app/migrations
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./services/app/dev.env
+
   db:
     build:
       context: ./services/db
@@ -10,6 +24,8 @@ services:
     env_file:
       - ./services/db/dev.env
     stop_grace_period: 10s
+    expose:
+      - 5432
 
 volumes:
   psql_volume:

@@ -8,3 +8,9 @@
 ## Add Dependencies
 1. Add your new dependency to `requirements.in`
 2. Run `pip-compile -o requirements.txt requirements.in --generate-hashes`
+
+## Adding migrations
+Migrations is handled by `Flask-Migrate`. To init, run `python manage.py db init`
+
+1. Make changes in model.py, run `docker-compose exec app python manage.py db migrate` to generate the migration file.
+2. Run `docker-compose exec app python manage.py db upgrade` to apply your migration(s).
