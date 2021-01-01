@@ -1,6 +1,6 @@
 import bcrypt
 from datetime import datetime
-from main import db
+from app.main import db
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -17,10 +17,10 @@ class User(db.Model):
         self.created_on = datetime.now()
 
     def set_password(self, password):
-        self.password_hash = bcrypt.hashpw(password, bcrypt.gensalt())
+        self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     def check_password(self, password):
-        return bcrypt.hashpw(password, self.password_hash) == hashed
+        return bcrypt.hashpw(password.encode('utf-8'), self.password_hash) == hashed
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

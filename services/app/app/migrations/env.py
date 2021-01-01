@@ -19,7 +19,7 @@ logger = logging.getLogger('alembic.env')
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from model import User
+from app.model import User
 # target_metadata = mymodel.Base.metadata
 from flask import current_app
 config.set_main_option(

@@ -17,4 +17,6 @@ COPY ./requirements.dev.txt /requirements.txt
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 COPY ./app /usr/src/app
-WORKDIR /usr/src/app
+COPY ./tests /usr/src/tests
+COPY ./manage.py /usr/src
+WORKDIR /usr/src
