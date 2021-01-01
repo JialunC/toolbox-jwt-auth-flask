@@ -20,7 +20,7 @@ class User(db.Model):
         self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     def check_password(self, password):
-        return bcrypt.hashpw(password.encode('utf-8'), self.password_hash) == hashed
+        return bcrypt.checkpw(password.encode('utf-8'), self.password_hash)
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

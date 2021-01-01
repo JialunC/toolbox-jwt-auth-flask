@@ -1,6 +1,10 @@
 from app.model import User
 
 def test_new_user(client):
-    user = User('tom@gmail.com', 'wawaweewa')
+    PASSWORD = 'wawaweewa'
+    user = User('tom@gmail.com', PASSWORD)
     assert user.email == 'tom@gmail.com'
-    assert user.password_hash != 'wawaweewa'
+    assert user.password_hash != PASSWORD
+    assert user.check_password(PASSWORD)
+    import ipdb; ipdb.set_trace()
+    assert not user.check_password('password')
