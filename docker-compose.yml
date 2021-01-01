@@ -9,7 +9,7 @@ services:
       - db
     command: python ./main.py
     volumes:
-      - ./services/app/migrations:/usr/src/app/migrations
+      - ./services/app/app/migrations:/usr/src/app/migrations
     ports:
       - "5000:5000"
     env_file:
