@@ -3,6 +3,7 @@ import jwt
 import uuid
 from datetime import datetime, timedelta
 from app.main import db
+from app import utils
 from flask import current_app
 
 class User(db.Model):
@@ -49,11 +50,11 @@ class User(db.Model):
                 current_app.config.get('SECRET_KEY'),
                 algorithms=current_app.config.get('JWT_SIGNING')
             )
-            return payload['sub']
+            return payload['sub'], True
         except jwt.ExpiredSignatureError:
-            return 'ExpiredSignatureError'
+            return utils.EXPIRED_SIGNATURE_ERROR, False
         except jwt.InvalidTokenError:
-            return 'InvalidTokenError'
+            return utils.INVALID_TOKEN_ERROR, False
 
 
     def __repr__(self):
