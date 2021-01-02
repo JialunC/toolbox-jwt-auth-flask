@@ -1,7 +1,9 @@
-import uuid
 import bcrypt
-from datetime import datetime
+import jwt
+import uuid
+from datetime import datetime, timedelta
 from app.main import db
+from flask import current_app
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -23,6 +25,35 @@ class User(db.Model):
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password_hash)
+    
+    def get_auth_token(self):
+        payload = {
+            'exp': datetime.utcnow() + timedelta(
+                minutes=current_app.config.get('JWT_LIFE_MIN')
+            ),
+            'iat': datetime.utcnow(),
+            'sub': self.uuid
+        }
+        return jwt.encode(
+            payload,
+            current_app.config.get('SECRET_KEY'),
+            algorithm=current_app.config.get('JWT_SIGNING'),
+        )
+    
+    @staticmethod
+    def decode_auth_token(auth_token):
+        try:
+            payload = jwt.decode(
+                auth_token,
+                current_app.config.get('SECRET_KEY'),
+                algorithms=current_app.config.get('JWT_SIGNING')
+            )
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return 'ExpiredSignatureError'
+        except jwt.InvalidTokenError:
+            return 'InvalidTokenError'
+
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

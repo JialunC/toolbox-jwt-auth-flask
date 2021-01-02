@@ -7,6 +7,8 @@ class Config(object):
     TESTING = False
     SECRET_KEY = os.environ['SECRET_KEY']
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    JWT_SIGNING = 'HS256'
+    JWT_LIFE_MIN = 30
 
 
 class ProductionConfig(Config):
