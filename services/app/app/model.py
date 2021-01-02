@@ -21,7 +21,8 @@ class User(db.Model):
         self.created_on = datetime.now()
 
     def set_password(self, password):
-        self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        salt_round = current_app.config.get('SALT_ROUND')
+        self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(salt_round))
 
     def check_password(self, password):
         return bcrypt.checkpw(password.encode('utf-8'), self.password_hash)

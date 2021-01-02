@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
 db = SQLAlchemy()
 from app.model import User
 
@@ -19,7 +20,14 @@ def create_app(config):
         data = request.get_json()
         user = User(**data)
         db.session.add(user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return jsonify({
+                'status': 'error',
+                'message': 'acount already exists'
+            }), 404
         return jsonify({'uuid': user.uuid}), 201
 
     @app.route('/auth', methods=['POST'])

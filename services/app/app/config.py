@@ -9,6 +9,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     JWT_SIGNING = 'HS256'
     JWT_LIFE_MIN = 30
+    SALT_ROUND = 12
 
 
 class ProductionConfig(Config):
@@ -28,3 +29,4 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://user:password@db/user_test'
+    SALT_ROUND = 4
