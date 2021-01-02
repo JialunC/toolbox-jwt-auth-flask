@@ -6,5 +6,4 @@ def test_new_user(client):
     assert user.email == 'tom@gmail.com'
     assert user.password_hash != PASSWORD
     assert user.check_password(PASSWORD)
-    import ipdb; ipdb.set_trace()
     assert not user.check_password('password')

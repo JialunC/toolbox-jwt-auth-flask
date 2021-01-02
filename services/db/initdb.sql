@@ -1,0 +1,2 @@
+CREATE DATABASE user_user;
+CREATE DATABASE user_test;

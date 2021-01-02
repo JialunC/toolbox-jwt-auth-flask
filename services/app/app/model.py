@@ -1,3 +1,4 @@
+import uuid
 import bcrypt
 from datetime import datetime
 from app.main import db
@@ -13,6 +14,7 @@ class User(db.Model):
 
     def __init__(self, email, password):
         self.email = email
+        self.uuid = uuid.uuid4()
         self.set_password(password)
         self.created_on = datetime.now()
 
